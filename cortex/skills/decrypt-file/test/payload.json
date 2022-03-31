@@ -1,0 +1,9 @@
+{
+  "payload": {
+    "filename": "german-credit.zip"
+  },
+  "properties": {
+    "encrypted-key": "german-credit",
+    "training-file": "german_credit_test.csv"
+  }
+}

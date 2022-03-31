@@ -1,0 +1,39 @@
+camel: 1.0.0
+name: decrypt-file
+title: Decrypt Zips
+description: decrypt-file
+properties:
+  - name: encrypted-key
+    type: string
+    secure: true
+  - name: training-file
+    type: string
+inputs:
+  - name: decrypt-key
+    title: Decrypt File Request
+    parameters:
+      $ref: file-request
+    routing:
+      all:
+        action: decrypt-file
+        runtime: cortex/jobs
+        output: result
+
+outputs:
+  - name: result
+    title: Job result
+    parameters:
+      - name: result
+        type: object
+        description: Job Execution Logs
+        required: true
+  - name: training
+    title: TrainingRequest
+    parameters:
+      $ref: file-request
+  - name: error
+    title: ErrorResponse
+    parameters:
+      - name: error
+        type: string
+        description: Error Report

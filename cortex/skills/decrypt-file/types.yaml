@@ -1,0 +1,9 @@
+types:
+  - name: file-request
+    title: FileRequest
+    camel: 1.0.0
+    parameters:
+      - name: filename
+        type: String
+        description: Filename
+        required: true

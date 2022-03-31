@@ -1,0 +1,2 @@
+cortex-python==6.1.0
+pydantic==1.9.0

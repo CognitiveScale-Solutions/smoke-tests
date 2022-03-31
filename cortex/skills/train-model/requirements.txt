@@ -1,0 +1,4 @@
+cortex-python==6.1.0
+scikit-learn==1.0.2
+pandas==1.4.0
+pydantic==1.9.0

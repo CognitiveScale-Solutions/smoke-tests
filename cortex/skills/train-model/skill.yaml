@@ -2,7 +2,11 @@ camel: 1.0.0
 name: train-model
 title: train-model
 description: train-model
-
+properties:
+  - name: experiment_name
+    title: Experiment Name
+    type: string
+    required: true
 inputs:
   - name: train-model
     title: TrainModel

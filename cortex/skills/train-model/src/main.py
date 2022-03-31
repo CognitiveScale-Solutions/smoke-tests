@@ -1,3 +1,4 @@
+import argparse
 import json
 import sys
 
@@ -72,7 +73,19 @@ def build_model(data, name, test=None):
     print(f"Model '{name}' accuracy is {accuracy}")
     return model, accuracy
 
+def init_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description='Downloads a zip file decrypts it, and uploads individual files to MC')
+    parser.add_argument("-m", help="The Cortex Message received as part of the payload", dest="config",
+                        type=TrainModel.parse_raw)
+    return parser
+
+
+def parse_args(args) -> argparse.Namespace:
+    parser = init_parser()
+    return parser.parse_args(args)
+
 
 if __name__ == "__main__":
-    payload = json.loads(sys.argv[1])
-    train(TrainModel(**payload))
+    payload =parse_args(None)
+
+    train(payload.config)

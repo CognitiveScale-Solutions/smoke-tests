@@ -11,8 +11,8 @@ class CortexRequest(BaseModel):
     api_endpoint: str = Field(alias="apiEndpoint")
     token: str
     project_id: str = Field(alias="projectId")
-    channelId: str
-    activationId: str
+    channelId: Optional[str]
+    activationId: Optional[str]
 
 
 class ExperimentConfig(BaseModel):

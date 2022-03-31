@@ -1,0 +1,24 @@
+camel: 1.0.0
+name: train-model
+title: train-model
+description: train-model
+
+inputs:
+  - name: train-model
+    title: TrainModel
+    parameters:
+      $ref: file-request
+    routing:
+      all:
+        action  : train-model
+        runtime: cortex/jobs
+        output: result
+
+outputs:
+  - name: result
+    title: Job result
+    parameters:
+      - name: result
+        type: string
+        description: Job Execution Logs
+        required: true

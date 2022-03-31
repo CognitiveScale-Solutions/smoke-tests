@@ -1,0 +1,9 @@
+{
+  "payload": {
+    "dataset": "german_credit_eval.csv"
+  },
+  "properties": {
+     "experiment_name": "german-credit"
+  }
+
+}

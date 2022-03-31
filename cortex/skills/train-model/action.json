@@ -1,0 +1,10 @@
+{
+  "name": "train-model",
+  "actionType": "job",
+  "docker": "private-registry.cvs-mo-v6.gke.insights.ai/train-model:2022-02-02.21.17",
+  "environmentVariables": "\"VERSION\"=\"2022-02-02.21.17\"",
+  "command": [
+    "python",
+    "/app/main.py"
+  ]
+}

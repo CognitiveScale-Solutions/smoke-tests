@@ -25,7 +25,7 @@ def decrypt_file(config: DecryptRequest):
                           content_type="octet/stream")
     if config.trainingFile:
         if training_valid:
-            message = {"fileName": config.trainingFile}
+            message = {"filename": config.trainingFile}
             output_name = "training"
         else:
             message = {"error": f"{config.filename} missing expected training file: {config.trainingFile}"}

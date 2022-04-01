@@ -1,0 +1,10 @@
+{
+  "name": "train-model",
+  "actionType": "job",
+  "docker": "private-registry.uhcv6.aks.insights.ai/train-model:d09c0fa",
+  "environmentVariables": "\"VERSION\"=\"d09c0fa\"",
+  "command": [
+    "python",
+    "/app/main.py", "-m"
+  ]
+}

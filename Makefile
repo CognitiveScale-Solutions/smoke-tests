@@ -23,14 +23,14 @@ $(SUB_DIRS):
 	@echo "Building, Pushing, and Deploying $@ ${result}"
 	@echo "Project: ${CORTEX_PROJECT}"
 	@echo "Version: ${IMAGE_TAG}"
-	@$(MAKE) -C skills/$@ all
+	@$(MAKE) -C cortex/skills/$@ all
 
 #IDK why an agent would fail...but this is the last step before we can validate running containers
 agent:
 	@echo "Deploying agent"
-	cortex agents save -y agent.yaml
+	cortex agents save -y cortex/agent.yaml
 
-.cortex:Makefile
+.cortex:clean
 	$(shell cortex configure env > ".cortex")
 
 
@@ -45,4 +45,13 @@ list:
 	@echo "Cortex Skills: "
 	 @$(foreach dir,$(SUB_DIRS),echo "*  $(dir)";)
 
+clean:
+	@rm -rf .cortex
+
+train:
+	@echo "Running the train command"
+	cortex agents invoke trainer-test invoke --params-file cortex/skills/decrypt-file/test/payload.json
+
+get-response:
+	cortex agents
 -include .cortex

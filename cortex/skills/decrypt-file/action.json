@@ -1,8 +1,8 @@
 {
   "name": "decrypt-file",
   "actionType": "job",
-  "docker": "private-registry.uhcv6.aks.insights.ai/decrypt-file:6cdf26a",
-  "environmentVariables": "\"VERSION\"=\"6cdf26a\"",
+  "docker": "private-registry.uhcv6.aks.insights.ai/decrypt-file:6.0.10",
+  "environmentVariables": "\"VERSION\"=\"6.0.10\"",
   "command": [
     "scuttle",
     "python",

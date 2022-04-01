@@ -1,8 +1,8 @@
 {
   "name": "rest-predict",
   "actionType": "daemon",
-  "docker": "private-registry.uhcv6.aks.insights.ai/rest-predict:6789a0d",
-  "environmentVariables": "\"VERSION\"=\"6789a0d\"",
+  "docker": "private-registry.uhcv6.aks.insights.ai/rest-predict:6.0.10",
+  "environmentVariables": "\"VERSION\"=\"6.0.10\"",
   "command": [
     "uvicorn",
     "main:app",

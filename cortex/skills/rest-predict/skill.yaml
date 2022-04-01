@@ -20,6 +20,12 @@ outputs:
       $ref: loan-outcome
 
 properties:
+  - name: experiment_name
+    title: Experiment Name
+    description: Experiment to load for predictions
+    type: String
+    required: true
+    defaultValue: german-credit
   - name: daemon.method
     title: Daemon method
     description: Update default value to HTTP method supported by endpoint

@@ -6,7 +6,7 @@ IMAGE_TAG=$(shell curl -s ${CORTEX_URL}/fabric/v4/info | jq .version -r) #Base h
 export
 SUB_DIRS:=$(notdir $(wildcard cortex/skills/*))
 CONTENT:=$(filter-out README.md, $(notdir $(wildcard cortex/content/*)) )
-all: init $(CONTENT)
+all: init $(CONTENT) $(SUB_DIRS) agent
 
 #Failure here means the vault is probably not configured correctly...or that you haven't preconfigured your PAT file
 init: display-env
@@ -18,11 +18,17 @@ $(CONTENT): display-env
 	@echo "Publishing content to Managed Content"
 	cortex content upload $@ cortex/content/$@
 
+#Failure here probably means a problem with docker registry
 $(SUB_DIRS):
 	@echo "Building, Pushing, and Deploying $@ ${result}"
 	@echo "Project: ${CORTEX_PROJECT}"
 	@echo "Version: ${IMAGE_TAG}"
 	@$(MAKE) -C skills/$@ all
+
+#IDK why an agent would fail...but this is the last step before we can validate running containers
+agent:
+	@echo "Deploying agent"
+	cortex agents save -y agent.yaml
 
 .cortex:Makefile
 	$(shell cortex configure env > ".cortex")

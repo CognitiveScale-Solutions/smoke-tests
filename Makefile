@@ -2,7 +2,7 @@
 #
 # Set the version equal to the current cortex deployed version.  If we upgrade we should see all containers and jobs
 # Updated to use the same tag
-IMAGE_TAG=$(shell curl -s ${CORTEX_URL}/fabric/v4/info | jq .version -r) #Base health check...is Cortex ready
+IMAGE_TAG=$(shell curl -s ${CORTEX_URL}/fabric/v4/info | jq .version -r)#Base health check...is Cortex ready
 export
 SUB_DIRS:=$(notdir $(wildcard cortex/skills/*))
 CONTENT:=$(filter-out README.md, $(notdir $(wildcard cortex/content/*)) )
@@ -36,7 +36,7 @@ agent:
 
 display-env:
 	@echo "Project: ${CORTEX_PROJECT}"
-	@echo "Version: ${IMAGE_TAG}"
+	@echo "Version: ${IMAGE_TAG}-"
 
 #Validate that you're picking up and deploying everything you want need
 list:

@@ -100,6 +100,15 @@ The agent will execute the following steps
 
 Alright, now that we know what is happening run the command:
 ```shell
-make train
+% make train
+Running the train command
+cortex agents invoke trainer-test invoke --params-file cortex/skills/decrypt-file/test/payload.json
+{
+  "success": true,
+  "activationId": "7dd8e5ea-56f9-4cc4-bddc-3b89d4f0844d"
+}
+
 ```
+A success = true means that the agent is successfully deployed, and that we were able to perform actions on it. We will eventually poll for results; but for now let's verify that other operations work as intended.
+
 

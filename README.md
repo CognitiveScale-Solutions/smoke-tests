@@ -12,6 +12,10 @@ does this by deploying a single action with four actions to cover/test the minim
 ````shell
 cortex configure --profile <profile_name>  --project <project_name>
 ````
+4.  Activate the profile by running the command
+````shell
+cortex configure set-profile <profile_name>
+````
 **Note**:  It is important that you define in your configuration the project you want to run smoke-tests on.  The tests
 will create secrets, upload content, and create custom types.  In most cases, we want this siloed so it doesn't pollute
 the developer workspaces.
@@ -65,24 +69,22 @@ Error: Please configure the Cortex CLI by running "cortex configure"
 ```
 
 
-##Step 2
-Build and Deploy all skills/secrets and content.  This is going to be a fairly long process 5-10 minutes if you have
-a slow internet connection. 
+## Step 2
+Build and Deploy all skills/secrets and content. 
 ```shell
 make all
 ```
+Logging should be fairly verbose.  If there is a problem with any of the configurations, we should fail quickly on the appropriate problem step.
 
-If you experience any step that fail.  Stop and review the causes.  The first action we do is create a secret.  If
-secrets aren't saving we will fail there (Vault/HashiCorp, etc.).
-
-If you fail to deploy the content, then validate that the MinIO configurations are correct.
+The first step deploys the Secrets using the CLI:  If secrets aren't saving we will fail there (Vault/HashiCorp, etc.).
+The second step uploads content to Managed Content:  This is backed my MinIO, validate that the MinIO configurations are correct.
 Finally if the actions fail to deploy then that means that the probable root cause is Docker. If the client is using an external
 url..then I probably need to update the scripts to do it differently.  Open a JIRA ticket and I'll figure out how to 
 modify this so it works for everyone.
 At this point, if nothing has failed we have validated all services are up and appear to be running.  In the next step we're going to ensure that
 they are working by running the test invocations to check that the internals work
 
-##Step 3
+## Step 3
 So up to this point we've been fully automated.  The final test is making sure the plumbing works by verifying an agent
 The agent will execute the following steps
 1. Decrypt-Skill
@@ -98,5 +100,15 @@ The agent will execute the following steps
 
 Alright, now that we know what is happening run the command:
 ```shell
-make train
+% make train
+Running the train command
+cortex agents invoke trainer-test invoke --params-file cortex/skills/decrypt-file/test/payload.json
+{
+  "success": true,
+  "activationId": "7dd8e5ea-56f9-4cc4-bddc-3b89d4f0844d"
+}
+
 ```
+A success = true means that the agent is successfully deployed, and that we were able to perform actions on it. We will eventually poll for results; but for now let's verify that other operations work as intended.
+
+

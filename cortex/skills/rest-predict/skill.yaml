@@ -11,7 +11,7 @@ inputs:
       all:
         action  : rest-predict
         runtime: cortex/daemons
-        output: response
+        output: prediction
 
 outputs:
   - name: prediction

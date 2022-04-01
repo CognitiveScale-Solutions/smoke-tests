@@ -1,0 +1,112 @@
+---
+camel: 1.0.0
+name: trainer-test
+title: Trainer Generated
+description: Downloads the source content files, unzips and dispatches to the model
+  to train
+tags: []
+properties: []
+inputs:
+- output: invoke
+  name: invoke
+  title: FileRequest
+  parameters:
+    "$ref": file-request
+  signalId: agent-input
+  signalType: Service
+- output: predict
+  name: predict
+  title: CreditStatus
+  parameters:
+    "$ref": credit-status
+  signalId: agent-output
+  signalType: Service
+outputs:
+- name: invoke
+  title: FileRequest
+  parameters:
+    "$ref": file-request
+  signalId: id1
+  signalType: Service
+- name: predict
+  title: Loan Outcome
+  parameters:
+    "$ref": loan-outcome
+  signalId: id2
+  signalType: Service
+skills:
+- skillName: decrypt-file
+  title: Decrypt Zips
+  description: decrypt-file
+  refId: decrypt-skill
+  properties:
+  - name: encrypted-key
+    value: "#SECURE.german-credit.zip"
+  - name: training-file
+    value: german_credit_test.csv
+  _layout:
+    cellIndex: 46
+- skillName: train-model
+  title: train-model
+  description: train-model
+  refId: id4
+  properties:
+  - name: experiment_name
+    value: german-credit
+  _layout:
+    cellIndex: 50
+- skillName: rest-predict
+  title: rest-predict
+  description: rest-predict
+  refId: id3
+  properties:
+  - name: daemon.method
+    value: POST
+  - name: daemon.path
+    value: version
+  - name: daemon.port
+    value: '5000'
+  _layout:
+    cellIndex: 54
+mappings:
+- from:
+    skill:
+      refId: decrypt-skill
+      output: training
+  to:
+    skill:
+      refId: id4
+      input: train-model
+  rules: []
+- from:
+    skill:
+      refId: id4
+      output: result
+  to:
+    output:
+      signalId: id1
+  rules: []
+- from:
+    input:
+      signalId: agent-input
+  to:
+    skill:
+      refId: decrypt-skill
+      input: decrypt-key
+  rules: []
+- from:
+    input:
+      signalId: agent-output
+  to:
+    skill:
+      refId: id3
+      input: evaluation-request
+  rules: []
+- from:
+    skill:
+      refId: id3
+      output: response
+  to:
+    output:
+      signalId: id2
+  rules: []

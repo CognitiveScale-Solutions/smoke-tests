@@ -1,10 +1,11 @@
 #  Copyright (c) 2022. Cognitive Scale Inc. All Rights Reserved. Confidential and Proprietary.
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Any
 
 from sklearn import preprocessing
 from sklearn.preprocessing import StandardScaler
 import numpy as np
+
 
 class CreditStatus(BaseModel):
     checkingstatus: str
@@ -29,11 +30,11 @@ class CreditStatus(BaseModel):
     foreign: str
 
 
-class EvaluateRequest(BaseModel):
+class BaseRequest(BaseModel):
     apiEndpoint: str
     token: str
-    payload: CreditStatus
     properties: dict
+    payload: Any
     projectId: str
     channelId: Optional[str]
     activationId: Optional[str]
@@ -45,6 +46,30 @@ class EvaluateRequest(BaseModel):
     @property
     def run_id(self) -> str:
         return self.properties.get("run_id", None)
+
+
+class EvaluateRequest(BaseRequest):
+    payload: CreditStatus
+
+
+class ModelInfo(BaseModel):
+    experiment_name: Optional[str]
+    run_id: Optional[str]
+
+    def requires_reload(self, experiment_name: str, run_id: str) -> bool:
+        if self.experiment_name != experiment_name:
+            return True
+        if not self.run_id:
+            return True
+        if not run_id:
+            return False
+
+        return self.run_id == run_id
+
+
+class Version(BaseModel):
+    version: str
+    model: ModelInfo
 
 
 class CatEncoder:

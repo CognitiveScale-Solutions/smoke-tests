@@ -1,4 +1,13 @@
 types:
+  - name: model-version
+    camel: 1.0.0
+    title: Version
+    parameters:
+      - name: version
+        type: string
+        required: true
+      - name: model
+        type: object
   - name: loan-outcome
     camel: 1.0.0
     title: Loan Outcome

@@ -14,10 +14,14 @@ inputs:
         output: response
 
 outputs:
-  - name: response
+  - name: prediction
     title: Loan Outcome
     parameters:
       $ref: loan-outcome
+  - name: refresh
+    title: Model Info
+    parameters:
+      $ref: model-version
 
 properties:
   - name: experiment_name

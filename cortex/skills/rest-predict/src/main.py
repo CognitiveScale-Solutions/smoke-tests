@@ -5,22 +5,30 @@ import pandas as pd
 import uvicorn
 from cortex.experiment import ExperimentClient, Experiment
 from fastapi import FastAPI, Depends
-from models import CreditStatus, EvaluateRequest
-from sklearn.model_selection import train_test_split
+from models import CreditStatus, EvaluateRequest, BaseRequest, Version, ModelInfo
 
 app = FastAPI()
 model = None
 encoder = None
 runId = None
+modelInfo = ModelInfo()
+version = Version(version=os.getenv("VERSION", "1.2.3"), model=modelInfo)
 
 
-def get_model(message: EvaluateRequest):
+def need_model(message: EvaluateRequest):
+    # Meh don't feel like learning how python downgrades so this is the helper to cast and recast
+    get_model(message, True)
+    return message
+
+
+def get_model(message: BaseRequest, reload=False):
     global model
     global encoder
+    global modelInfo
     experiment_client = ExperimentClient(message.apiEndpoint, version=6, token=message.token)
     experiment: Experiment = Experiment.get_experiment(message.experiment, project=message.projectId,
                                                        client=experiment_client)
-    reload = False
+    reload = reload or modelInfo.requires_reload(message.experiment, message.run_id)
     if model is None:
         reload = True
     if message.run_id:
@@ -29,15 +37,16 @@ def get_model(message: EvaluateRequest):
         return message
     else:
         model_run = experiment.last_run()
-    if runId != model_run.id:
+    if version.model.run_id != model_run.id:
         model = model_run.get_artifact("model")
         encoder = model_run.get_artifact("encoder")
-
+    modelInfo.run_id = model_run.id
+    modelInfo.experiment_name = message.experiment
     return message
 
 
 @app.post('/invoke')
-def run(requestBody: EvaluateRequest = Depends(get_model)):
+def run(requestBody: EvaluateRequest = Depends(need_model)):
     result = [None, "Loan Approved", "Loan Declined"]
     global encoder
     global model
@@ -53,15 +62,13 @@ def run(requestBody: EvaluateRequest = Depends(get_model)):
 
 @app.get("/version")
 @app.post("/version")
-def version():
-    return {"payload": {"version": os.getenv("VERSION", "0.0.1"), "model": {
-        "runId": runId
-    }}}
+def versionStatus():
+    return {"payload": version.dict()}
 
 
 @app.post("/refresh")
-def refresh(requestBody: dict = Depends(get_model)):
-    return version()
+def refresh(requestBody: BaseRequest = Depends(get_model)):
+    return {"payload": version.dict()}
 
 
 if __name__ == "__main__":

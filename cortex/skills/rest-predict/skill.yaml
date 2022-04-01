@@ -1,0 +1,40 @@
+camel: 1.0.0
+name: rest-predict
+title: rest-predict
+description: rest-predict
+inputs:
+  - name: evaluation-request
+    title: Credit Evaluation
+    parameters:
+      $ref: credit-status
+    routing:
+      all:
+        action  : rest-predict
+        runtime: cortex/daemons
+        output: response
+
+outputs:
+  - name: response
+    title: Loan Outcome
+    parameters:
+      $ref: loan-outcome
+
+properties:
+  - name: daemon.method
+    title: Daemon method
+    description: Update default value to HTTP method supported by endpoint
+    required: true
+    type: String
+    defaultValue: POST
+  - name: daemon.path
+    title: Daemon path
+    description: Update default value to HTTP endpoint path in container
+    required: true
+    type: String
+    defaultValue: invoke
+  - name: daemon.port
+    title: Daemon Port
+    description: Update default value to port on which app will be running
+    required: true
+    type: String
+    defaultValue: 5000

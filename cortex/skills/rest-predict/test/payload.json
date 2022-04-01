@@ -1,0 +1,27 @@
+{
+  "payload": {
+    "checkingstatus": "... >= 200 DM / salary assignments for at least 1 year",
+    "duration": "6",
+    "history": "critical account/ other credits existing (not at this bank)",
+    "purpose": "car (new)",
+    "amount": "1343",
+    "savings": "... < 100 DM",
+    "employ": ".. >= 7 years",
+    "installment": "1",
+    "status": "male : single",
+    "others": "others - none",
+    "residence": "4",
+    "property": "real estate",
+    "age": "> 25 years",
+    "otherplans": "none",
+    "housing": "own",
+    "cards": "2",
+    "job": "skilled employee / official",
+    "liable": "2",
+    "telephone": "phone - none",
+    "foreign": "foreign - no"
+  },
+  "properties": {
+    "experiment_name": "german-credit"
+  }
+}

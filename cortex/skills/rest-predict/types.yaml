@@ -1,0 +1,72 @@
+types:
+  - name: loan-outcome
+    camel: 1.0.0
+    title: Loan Outcome
+    parameters:
+      - name: outcome
+        type: string
+  - name: credit-status
+    title: CreditStatus
+    camel: 1.0.0
+    parameters:
+      - name: checkingstatus
+        title: Checkingstatus
+        type: string
+      - name: duration
+        title: Duration
+        type: string
+      - name: history
+        title: History
+        type: string
+      - name: purpose
+        title: Purpose
+        type: string
+      - name: amount
+        title: Amount
+        type: string
+      - name: savings
+        title: Savings
+        type: string
+      - name: employ
+        title: Employ
+        type: string
+      - name: installment
+        title: Installment
+        type: string
+      - name: status
+        title: Status
+        type: string
+      - name: others
+        title: Others
+        type: string
+      - name: residence
+        title: Residence
+        type: string
+      - name: property
+        title: Property
+        type: string
+      - name: age
+        title: Age
+        type: string
+      - name: otherplans
+        title: Otherplans
+        type: string
+      - name: housing
+        title: Housing
+        type: string
+      - name: cards
+        title: Cards
+        type: string
+      - name: job
+        title: Job
+        type: string
+      - name: liable
+        title: Liable
+        type: string
+      - name: telephone
+        title: Telephone
+        type: string
+      - name: foreign
+        title: Foreign
+        type: string
+

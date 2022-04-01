@@ -12,6 +12,10 @@ does this by deploying a single action with four actions to cover/test the minim
 ````shell
 cortex configure --profile <profile_name>  --project <project_name>
 ````
+4.  Activate the profile by running the command
+````shell
+cortex configure set-profile <profile_name>
+````
 **Note**:  It is important that you define in your configuration the project you want to run smoke-tests on.  The tests
 will create secrets, upload content, and create custom types.  In most cases, we want this siloed so it doesn't pollute
 the developer workspaces.

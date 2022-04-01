@@ -69,7 +69,7 @@ Error: Please configure the Cortex CLI by running "cortex configure"
 ```
 
 
-##Step 2
+## Step 2
 Build and Deploy all skills/secrets and content.  This is going to be a fairly long process 5-10 minutes if you have
 a slow internet connection. 
 ```shell

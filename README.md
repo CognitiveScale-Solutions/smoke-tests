@@ -110,5 +110,66 @@ cortex agents invoke trainer-test invoke --params-file cortex/skills/decrypt-fil
 
 ```
 A success = true means that the agent is successfully deployed, and that we were able to perform actions on it. We will eventually poll for results; but for now let's verify that other operations work as intended.
+Copy the value provided for the activationId, we'll use that to poll shortly
 
 
+Validate that the content is present that we uploaded earlier.  Below is a complete output of all the files that will be generated as the job runs.
+The validation file is german-credit.zip
+
+```shell
+% cortex content list
+┌──────────────────────────────────────────────────────────────────────┬──────────────────────────────┬──────────────────────────────┬────────────────────┐
+│ Key                                                                  │ Content Type                 │ Last Modified                │ Size (bytes)       │
+├──────────────────────────────────────────────────────────────────────┼──────────────────────────────┼──────────────────────────────┼────────────────────┤
+│ experiments/german-credit/gv00hln/artifacts/encoder                  │ application/octet-stream     │ 2022-04-05T16:09:49.690Z     │ 5006               │
+├──────────────────────────────────────────────────────────────────────┼──────────────────────────────┼──────────────────────────────┼────────────────────┤
+│ experiments/german-credit/gv00hln/artifacts/model                    │ application/octet-stream     │ 2022-04-05T16:09:49.753Z     │ 2922               │
+├──────────────────────────────────────────────────────────────────────┼──────────────────────────────┼──────────────────────────────┼────────────────────┤
+│ german-credit.zip                                                    │ application/octet-stream     │ 2022-04-05T15:49:22.445Z     │ 26775              │
+├──────────────────────────────────────────────────────────────────────┼──────────────────────────────┼──────────────────────────────┼────────────────────┤
+│ german_credit_eval.csv                                               │ application/octet-stream     │ 2022-04-05T16:09:03.844Z     │ 291434             │
+├──────────────────────────────────────────────────────────────────────┼──────────────────────────────┼──────────────────────────────┼────────────────────┤
+│ german_credit_explan.csv                                             │ application/octet-stream     │ 2022-04-05T16:09:04.054Z     │ 29436              │
+├──────────────────────────────────────────────────────────────────────┼──────────────────────────────┼──────────────────────────────┼────────────────────┤
+│ german_credit_test.csv                                               │ application/octet-stream     │ 2022-04-05T16:09:04.253Z     │ 87378              │
+├──────────────────────────────────────────────────────────────────────┼──────────────────────────────┼──────────────────────────────┼────────────────────┤
+│ scan.yaml                                                            │ application/octet-stream     │ 2022-04-05T16:09:04.412Z     │ 867                │
+└──────────────────────────────────────────────────────────────────────┴──────────────────────────────┴──────────────────────────────┴────────────────────┘
+
+```
+
+Finally validate that the agent invocation was successful by running the command
+```shell
+% cortex agents get-activation <activationId>
+```
+The result should be similar to this:
+````json
+{
+  "success": true,
+  "requestId": "ea23abb6-228c-4576-a21b-c6599e992049",
+  "agentName": "smoke-train",
+  "serviceName": "invoke",
+  "sessionId": "ea23abb6-228c-4576-a21b-c6599e992049",
+  "projectId": "smoke-tests",
+  "username": "rhogan@cognitivescale.com",
+  "properties": {
+    "training-file": "german_credit_test.csv"
+  },
+  "payload": {
+    "filename": "german-credit.zip"
+  },
+  "start": 1649174937359,
+  "status": "COMPLETE",
+  "end": 1649175005491,
+  "response": {
+    "version": "6.1.1",
+    "model": {
+      "experiment_name": "german-credit",
+      "run_id": "gv00hln"
+    }
+  }
+}
+
+````
+We're interested in the status.  If it says PENDING still after twenty minutes...then the agent invocation has problems
+reach out to your SRE team to triage.

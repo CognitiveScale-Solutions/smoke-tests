@@ -11,6 +11,9 @@ SUB_DIRS:=$(notdir $(wildcard cortex/skills/*))
 CONTENT:=$(filter-out README.md, $(notdir $(wildcard cortex/content/*)) )
 all: init $(CONTENT) $(SUB_DIRS) agent
 
+#Sample to create base image for use by smoke-tests
+custom-image:
+	docker build -t FROM python:3.9-buster .
 #Failure here means the vault is probably not configured correctly...or that you haven't preconfigured your PAT file
 init: display-env
 	@echo "Saving Cortex Secrets"

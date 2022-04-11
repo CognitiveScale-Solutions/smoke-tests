@@ -3,7 +3,7 @@ SHELL:=/bin/bash -O expand_aliases
 IMAGE_TAG?=$(or $(shell git rev-parse --short HEAD), latest)
 SKILL_NAME=$(notdir $(CURDIR))
 #Ugh the URL is prefaced with the scheme (https:) we need to drop it
-DOCKER_PREGISTRY_URL=$(lastword $(subst ://, ,$(shell curl -s ${CORTEX_URL}/fabric/v4/info | jq .endpoints.registry.url -r)) )
+DOCKER_PREGISTRY_URL?=$(lastword $(subst ://, ,$(shell curl -s ${CORTEX_URL}/fabric/v4/info | jq .endpoints.registry.url -r)) )
 DOCKER_IMAGE_URL=${DOCKER_PREGISTRY_URL}/${SKILL_NAME}:${IMAGE_TAG}
 
 all: build push deploy

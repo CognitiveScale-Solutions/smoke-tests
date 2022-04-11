@@ -2,7 +2,10 @@
 #
 # Set the version equal to the current cortex deployed version.  If we upgrade we should see all containers and jobs
 # Updated to use the same tag
+-include .cortex
 IMAGE_TAG=$(shell curl -s ${CORTEX_URL}/fabric/v4/info | jq .version -r)#Base health check...is Cortex ready
+#Uncomment and set to your private registry.  NOTE:  Do not add the scheme (http/https)
+#DOCKER_PREGISTRY_URL=rhogan.local
 export
 SUB_DIRS:=$(notdir $(wildcard cortex/skills/*))
 CONTENT:=$(filter-out README.md, $(notdir $(wildcard cortex/content/*)) )
@@ -30,11 +33,10 @@ agent:
 	@echo "Deploying agent"
 	cortex agents save -y cortex/agent.yaml
 
-.cortex:clean
+.cortex:
 	$(shell cortex configure env > ".cortex")
 
-
-display-env:
+display-env: .cortex
 	@echo "Project: ${CORTEX_PROJECT}"
 	@echo "Version: ${IMAGE_TAG}-"
 
@@ -46,7 +48,7 @@ list:
 	 @$(foreach dir,$(SUB_DIRS),echo "*  $(dir)";)
 
 clean:
-	@rm -rf .cortex
+	@rm  .cortex
 
 train:
 	@echo "Running the train command"
@@ -54,4 +56,3 @@ train:
 
 get-response:
 	cortex agents
--include .cortex

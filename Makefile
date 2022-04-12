@@ -38,7 +38,7 @@ agent:
 	cortex agents save -y cortex/agent.yaml
 
 .cortex:
-	$(shell cortex configure env > ".cortex")
+	@cortex configure env > ".cortex"
 
 display-env: .cortex
 	@echo "Project: ${CORTEX_PROJECT}"
@@ -53,7 +53,7 @@ list:
 	 @$(foreach dir,$(SUB_DIRS),echo "*  $(dir)";)
 
 clean:
-	@rm  .cortex
+	@rm .cortex
 
 train:
 	@echo "Running the train command"

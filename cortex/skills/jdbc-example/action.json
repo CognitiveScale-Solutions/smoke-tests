@@ -1,0 +1,10 @@
+{
+  "name": "jdbc-example",
+  "actionType": "daemon",
+  "docker": "private-registry.cvs-mo-v6.gke.insights.ai/jdbc-example:68c6b54",
+  "command": [
+    "./bin/jdbc-example"
+  ],
+  "port": "5000",
+  "environmentVariables": "\"VERSION\"=\"68c6b54\""
+}

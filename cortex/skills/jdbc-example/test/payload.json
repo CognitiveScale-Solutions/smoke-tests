@@ -1,0 +1,8 @@
+{
+  "payload": {
+    "query": "select * from \"PROJECT\".\"DATASOURCE\".\"DATATABLE\" limit 1"
+  },
+  "properties": {
+    "connection_name": "cdata-bigquery-props"
+  }
+}

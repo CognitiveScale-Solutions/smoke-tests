@@ -25,7 +25,7 @@ undeploy: check-env
 	sleep 5s
 
 tests: check-env
-	cortex skills invoke --params-file ./test/payload.json ${SKILL_NAME} params --project ${CORTEX_PROJECT}
+	cortex skills invoke --params-file ./test/payload.json ${SKILL_NAME} request --project ${CORTEX_PROJECT}
 
 get: check-env
 	cortex skills describe ${SKILL_NAME} --project ${CORTEX_PROJECT}

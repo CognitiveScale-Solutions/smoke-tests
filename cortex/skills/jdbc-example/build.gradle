@@ -35,6 +35,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
     implementation 'org.eclipse.jetty:jetty-webapp:9.4.45.v20220203'
+    implementation 'org.slf4j:slf4j-simple:1.7.25'
 //    Add JDBC driver jar from maven repository or copy into lib folder
 //    implementation 'mysql:mysql-connector-java:8.0.28'
 

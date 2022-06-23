@@ -9,6 +9,3 @@ RUN apt install python3-pip -y
 ADD sample.pip.conf /cortex/pip.conf
 
 ENV PIP_CONFIG_FILE=/cortex/pip.conf
-
-
-

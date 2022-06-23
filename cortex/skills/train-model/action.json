@@ -1,8 +1,8 @@
 {
   "name": "train-model",
   "actionType": "job",
-  "docker": "private-registry.uhcv6.aks.insights.ai/train-model:6.0.10",
-  "environmentVariables": "\"VERSION\"=\"6.0.10\"",
+  "docker": "private-registry.trainingv6.cognitiveu.insights.ai/train-model:6.2.2",
+  "environmentVariables": "\"VERSION\"=\"6.2.2\"",
   "command": [
     "python",
     "/app/main.py",

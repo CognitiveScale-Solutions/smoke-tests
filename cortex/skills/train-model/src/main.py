@@ -10,16 +10,27 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 
 from models import TrainModel, CatEncoder
 from cortex.content import ManagedContentClient
+from cortex import Cortex
+from cortex.model import ModelClient
 from cortex.experiment import ExperimentClient, Experiment
 import pandas as pd
 
 
 def train(message: TrainModel):
     print(f"Downloading {message.dataset} from ManagedContent")
-    client = ManagedContentClient(project_id=message.project_id, token=message.token, url=message.api_endpoint)
-    content = client.download(message.dataset, project=message.project_id)
+    managedClient = ManagedContentClient(project_id=message.project_id, token=message.token, url=message.api_endpoint)
+    modelClient = ModelClient(project=message.project_id, token=message.token, url=message.api_endpoint)
+    modelClient.save_model({
+        "name": message.experiment_name,
+        "status": "In development",
+        "type": "Regression",
+        "title": f"model-{message.experiment_name}"
+    })
+    content = managedClient.download(message.dataset, project=message.project_id)
     df = pd.read_csv(BytesIO(content.data))
-    experiment_client = ExperimentClient(message.api_endpoint, version=6, token=message.token)
+    experiment_client = ExperimentClient(message.api_endpoint, version=6, token=message.token, )
+    experiment_client.save_experiment(message.experiment_name, message.project_id,
+                                      modelId=f"model-{message.experiment_name}")
     experiment: Experiment = Experiment.get_experiment(message.experiment_name, project=message.project_id,
                                                        client=experiment_client)
     run: Run = experiment.start_run()
@@ -73,6 +84,7 @@ def build_model(data, name, test=None):
     print(f"Model '{name}' accuracy is {accuracy}")
     return model, accuracy
 
+
 def init_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description='Downloads a zip file decrypts it, and uploads individual files to MC')
     parser.add_argument("-m", help="The Cortex Message received as part of the payload", dest="config",
@@ -86,6 +98,6 @@ def parse_args(args) -> argparse.Namespace:
 
 
 if __name__ == "__main__":
-    payload =parse_args(None)
+    payload = parse_args(None)
 
     train(payload.config)
